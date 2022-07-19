@@ -1,0 +1,165 @@
+select usn,name from student s,Branch B
+where s.Branchid=B.Branchid and Branchname="MCA";
++-----------+--------+
+| usn       | name   |
++-----------+--------+
+| 4vp21cs09 | akshay |
+| 4vp21cs31 | janani |
++-----------+--------+
+select usn,name from student,Branch
+where student.Branchid=Branch.Branchid and Branchname="MCA";
++-----------+--------+
+| usn       | name   |
++-----------+--------+
+| 4vp21cs09 | akshay |
+| 4vp21cs31 | janani |
++-----------+--------+
+select * from Author where country like "%nd%";
++----------+---------------+---------+------+
+| Authorid | Authorname    | Country | age  |
++----------+---------------+---------+------+
+|        2 | baidya mishra | india   |   52 |
+|        4 | deepak        | india   |   29 |
++----------+---------------+---------+------+
+select * from Author where country like "_nd__";
++----------+---------------+---------+------+
+| Authorid | Authorname    | Country | age  |
++----------+---------------+---------+------+
+|        2 | baidya mishra | india   |   52 |
+|        4 | deepak        | india   |   29 |
++----------+---------------+---------+------+
+select * from Author where Age between 40 and 50;
++----------+------------+---------+------+
+| Authorid | Authorname | Country | age  |
++----------+------------+---------+------+
+|        3 | ellis      | US      |   41 |
++----------+------------+---------+------+
+select All Branchid from student;
++----------+
+| Branchid |
++----------+
+| B1       |
+| B1       |
+| B2       |
+| B3       |
+| B4       |
+| B5       |
++----------+
+
+select distinct Branchid from student;
++----------+
+| Branchid |
++----------+
+| B1       |
+| B2       |
+| B3       |
+| B4       |
+| B5       |
++----------+
+
+select usn,name 
+from student,Branch 
+where    student.Branchid=Branch.Branchid and
+Branchname="MCA"
+order by name;
++------------+---------+
+| usn        | name    |
++------------+---------+
+| 4vp21cs09  | akshay  |
+| 4vp21cs015 | deepthi |
+| 4vp21cs31  | janani  |
++------------+---------+
+
+
+select usn from student
+UNION select usn from Borrow;
++------------+
+| usn        |
++------------+
+| 4vp21cs015 |
+| 4vp21cs09  |
+| 4vp21cs31  |
+| 4vp21cs21  |
+| 4vp21cs01  |
+| 4vp21cs10  |
+| 4vp21cs02  |
++------------+
+
+select distinct name from student,Borrow
+ where student.usn=Borrow.usn;
+ OR
+ select distinct name from student,Borrow
+where student.usn in(select usn from Borrow)
+ +--------+
+| name   |
++--------+
+| janani |
+| vaish  |
+| varun  |
+| ram    |
+| sunil  |
++--------+
+
+select distinct name from student,Borrow
+where student.usn not in(select usn from Borrow);
+
++---------+
+| name    |
++---------+
+| deepthi |
+| akshay  |
++---------+
+
+select count(Authorname)
+from Author;
++-------------------+
+| count(Authorname) |
++-------------------+
+|                 5 |
++-------------------+
+select count(Bookname) from Book;
++-----------------+
+| count(Bookname) |
++-----------------+
+|               6 |
++-----------------+
+
+select Book.Authorid,Authorname,count(*) as total
+from Book,Author 
+where Book.Authorid=Author.Authorid group by Book.Authorid;
++----------+---------------+-------+
+| Authorid | Authorname    | total |
++----------+---------------+-------+
+|        1 | ramez         |     3 |
+|        2 | baidya mishra |     1 |
+|        3 | ellis         |     2 |
++----------+---------------+-------+
+
+select student.usn,student.name,Branch.Branchname,Book.Bookname,Author.Authorname,Borrow.Borrowed_date
+from student,Branch,Author,Borrow,Book
+where student.usn=Borrow.usn and
+      student.Branchid=Branch.Branchid and 
+      Borrow.Bookid=Book.Bookid and
+      Book.Authorid=Author.Authorid and 
+      student.sem=2 and 
+      Branch.Branchname="MCA";
+      +-----------+--------+------------+----------+---------------+---------------+
+| usn       | name   | Branchname | Bookname | Authorname    | Borrowed_date |
++-----------+--------+------------+----------+---------------+---------------+
+| 4vp21cs31 | janani | MCA        | DBMS     | ramez         | 2004-01-01    |
+| 4vp21cs31 | janani | MCA        | RMI      | baidya mishra | 2011-08-20    |
++-----------+--------+------------+----------+---------------+---------------+
+
+select usn 
+  from Borrow
+  group by usn having count(usn)>=2;
++-----------+
+| usn       |
++-----------+
+| 4vp21cs31 |
++-----------+
+
+select Bookname,Bookid
+from Book
+order by Bookname desc
+      
