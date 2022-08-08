@@ -1,0 +1,287 @@
+
+create table Branch(Branchid varchar(10) primary key,
+Branchname varchar(20) not null,
+HoD varchar(20) not null);
+
+insert into Branch values('B1','MCA','Dr.Vandana');
+insert into Branch values('B2','MBA','Dr.Shekar iyer');
+insert into Branch values('B3','Mech','Dr.manujesh');
+insert into Branch values('B4','AIML','Dr.govindraj');
+insert into Branch values('B5','CS','prof.krishna');
+
++----------+------------+----------------+
+| Branchid | Branchname | HoD            |
++----------+------------+----------------+
+| B1       | MCA        | Dr.Vandana     |
+| B2       | MBA        | Dr.Shekar iyer |
+| B3       | Mech       | Dr.manujesh    |
+| B4       | AIML       | Dr.govindraj   |
+| B5       | CS         | prof.krishna   |
++----------+------------+----------------+
+
+create table student(USN varchar(10) primary key,
+NAME varchar(20) not null,
+ADDRESS varchar(30) not null,
+Branchid varchar(10) not null,
+SEM int(10),
+foreign key(Branchid) references Branch(Branchid));
+
+
+insert into student values('4vp21cs01','varun','puttur','B3',8);
+insert into student values('4vp21cs02','sunil','puttur','B5',6);
+insert into student values('4vp21cs10','ram','puttur','B4',4);
+insert into student values('4vp21cs21','vaish','puttur','B2',2);
+insert into student values('4vp21cs31','janani','puttur','B1',2);
+insert into student values('4vp21cs09','akshay','puttur','B1',2);
+
++------------+---------+---------+----------+------+
+| USN        | NAME    | ADDRESS | Branchid | SEM  |
++------------+---------+---------+----------+------+
+| 4vp21cs01  | varun   | puttur  | B3       |    8 |
+| 4vp21cs015 | deepthi | puttur  | B1       |    1 |
+| 4vp21cs02  | sunil   | puttur  | B5       |    6 |
+| 4vp21cs09  | akshay  | puttur  | B1       |    2 |
+| 4vp21cs10  | ram     | puttur  | B4       |    4 |
+| 4vp21cs21  | vaish   | puttur  | B2       |    2 |
+| 4vp21cs31  | janani  | puttur  | B1       |    2 |
++------------+---------+---------+----------+------+
+
+create table Author(Authorid int(10) primary key,
+Authorname char(20) not null,
+Country char(20),
+age int(10));
+
+insert into Author values(1,'ramez','arlinten',51);
+insert into Author values(2,'baidya mishra','india',52);
+insert into Author values(3,'ellis','US',41);
+insert into Author values(4,'deepak','india',29);
+insert into Author values(5,'yunus','japan',34);
+
++----------+---------------+----------+------+
+| Authorid | Authorname    | Country  | age  |
++----------+---------------+----------+------+
+|        1 | ramez         | arlinten |   51 |
+|        2 | baidya mishra | india    |   52 |
+|        3 | ellis         | US       |   41 |
+|        4 | deepak        | india    |   29 |
+|        5 | yunus         | japan    |   34 |
++----------+---------------+----------+------+
+
+
+create table Book(Bookid varchar(10) primary key,
+Bookname char(50) not null,
+Authorid int(10),
+Publisher char(20),
+Branchid varchar(10),
+foreign key(Branchid) references Branch(Branchid),
+foreign key(Authorid) references Author(Authorid));
+
+insert into Book values('BK1','DBMS',1,'pearson','B1');
+insert into Book values('BK2','RMI',2,'pearson','B2');
+insert into Book values('BK3','Data structure',3,'mc graw hill','B3');
+insert into Book values('BK4','AI',1,'mc graw hill','B4');
+insert into Book values('BK5','Thermo Dynamics',1,'taylor','B5');
+insert into Book values('BK6','Algorithm',3,'mc graw hill','B3');
+
++--------+-----------------+----------+--------------+----------+
+| Bookid | Bookname        | Authorid | Publisher    | Branchid |
++--------+-----------------+----------+--------------+----------+
+| BK1    | DBMS            |        1 | pearson      | B1       |
+| BK2    | RMI             |        2 | pearson      | B2       |
+| BK3    | Data structure  |        3 | mc graw hill | B3       |
+| BK4    | AI              |        1 | mc graw hill | B4       |
+| BK5    | Thermo Dynamics |        1 | taylor       | B5       |
+| BK6    | Algorithm       |        3 | mc graw hill | B3       |
++--------+-----------------+----------+--------------+----------+
+
+
+create table Borrow(USN varchar(10),
+Bookid varchar(10),
+Borrowed_Date date,
+primary key(USN,Bookid),
+foreign key(USN) references student(USN),
+foreign key(Bookid) references Book(Bookid));
+
+insert into Borrow values('4vp21cs01','Bk3','2010-05-21');
+insert into Borrow values('4vp21cs02','Bk5','2018-11-11');
+insert into Borrow values('4vp21cs10','Bk4','2009-02-10');
+insert into Borrow values('4vp21cs21','Bk2','2019-12-13');
+insert into Borrow values('4vp21cs31','Bk1','2004-01-01');
+
++-----------+--------+---------------+
+| USN       | Bookid | Borrowed_Date |
++-----------+--------+---------------+
+| 4vp21cs01 | Bk3    | 2010-05-21    |
+| 4vp21cs02 | Bk5    | 2018-11-11    |
+| 4vp21cs10 | Bk4    | 2009-02-10    |
+| 4vp21cs21 | Bk2    | 2019-12-13    |
+| 4vp21cs31 | Bk1    | 2004-01-01    |
+| 4vp21cs31 | BK2    | 2011-08-20    |
++-----------+--------+---------------+
+
+
+
+insert into Branch values('B1','MCA','Dr.Vandana');
+insert into Branch values('B2','MBA','Dr.Shekar iyer');
+insert into Branch values('B3','Mech','Dr.manujesh');
+insert into Branch values('B4','AIML','Dr.govindraj');
+insert into Branch values('B5','CS','prof.krishna');
+
++----------+------------+----------------+
+| Branchid | Branchname | HoD            |
++----------+------------+----------------+
+| B1       | MCA        | Dr.Vandana     |
+| B2       | MBA        | Dr.Shekar iyer |
+| B3       | Mech       | Dr.manujesh    |
+| B4       | AIML       | Dr.govindraj   |
+| B5       | CS         | prof.krishna   |
++----------+------------+----------------+
+
+
+
+
+
+
+
+//question 2//
+create table student(usn char(10) primary key,
+name varchar(20),
+DOB date,
+branch char(10),
+mark1 float(5,2),
+mark2 float(5,2),
+mark3 float(5,2),
+total float(5,2),
+GPA float(5,2));
+
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mc010","deepthi","2000-10-12","mca",67,78,81);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mc011","geetha","2001-03-21","mca",63,58,84);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mc012","deeksha","2000-04-26","mca",55,79,85);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mb013","pallavi","2000-01-26","mba",63,65,57);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mc014","chondh","2000-04-13","mba",62,57,76);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mc015","chethan","2000-7-01","mba",45,58,73);
+insert into student(usn,name,DOB,branch,mark1,mark2,mark3) values("4vp21mb016","akshay","2000-12-24","mba",54,66,59);
+
+update student SET total=mark1+mark2+mark3;
+Query OK, 7 rows affected (0.01 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+mysql> select * from student;
++------------+---------+------------+--------+-------+-------+-------+--------+------+
+| usn        | name    | DOB        | branch | mark1 | mark2 | mark3 | total  | GPA  |
++------------+---------+------------+--------+-------+-------+-------+--------+------+
+| 4vp21mb013 | pallavi | 2000-01-26 | mba    | 63.00 | 65.00 | 57.00 | 185.00 | NULL |
+| 4vp21mb016 | akshay  | 2000-12-24 | mba    | 54.00 | 66.00 | 59.00 | 179.00 | NULL |
+| 4vp21mc010 | deepthi | 2000-10-12 | mca    | 67.00 | 78.00 | 81.00 | 226.00 | NULL |
+| 4vp21mc011 | geetha  | 2001-03-21 | mca    | 63.00 | 58.00 | 84.00 | 205.00 | NULL |
+| 4vp21mc012 | deeksha | 2000-04-26 | mca    | 55.00 | 79.00 | 85.00 | 219.00 | NULL |
+| 4vp21mc014 | chondh  | 2000-04-13 | mba    | 62.00 | 57.00 | 76.00 | 195.00 | NULL |
+| 4vp21mc015 | chethan | 2000-07-01 | mba    | 45.00 | 58.00 | 73.00 | 176.00 | NULL |
++------------+---------+------------+--------+-------+-------+-------+--------+------+
+update student set GPA=(total/3);
+
+mysql> select * from student;
++------------+---------+------------+--------+-------+-------+-------+--------+-------+
+| usn        | name    | DOB        | branch | mark1 | mark2 | mark3 | total  | GPA   |
++------------+---------+------------+--------+-------+-------+-------+--------+-------+
+| 4vp21mb013 | pallavi | 2000-01-26 | mba    | 63.00 | 65.00 | 57.00 | 185.00 | 61.67 |
+| 4vp21mb016 | akshay  | 2000-12-24 | mba    | 54.00 | 66.00 | 59.00 | 179.00 | 59.67 |
+| 4vp21mc010 | deepthi | 2000-10-12 | mca    | 67.00 | 78.00 | 81.00 | 226.00 | 75.33 |
+| 4vp21mc011 | geetha  | 2001-03-21 | mca    | 63.00 | 58.00 | 84.00 | 205.00 | 68.33 |
+| 4vp21mc012 | deeksha | 2000-04-26 | mca    | 55.00 | 79.00 | 85.00 | 219.00 | 73.00 |
+| 4vp21mc014 | chondh  | 2000-04-13 | mba    | 62.00 | 57.00 | 76.00 | 195.00 | 65.00 |
+| 4vp21mc015 | chethan | 2000-07-01 | mba    | 45.00 | 58.00 | 73.00 | 176.00 | 58.67 |
+
+
+
+select usn,name from student where DOB="2001-03-21";
++------------+--------+
+| usn        | name   |
++------------+--------+
+| 4vp21mc011 | geetha |
++------------+--------+
+
+select name from student where branch="mca";
++---------+
+| name    |
++---------+
+| deepthi |
+| geetha  |
+| deeksha |
++---------+
+
+select branch,max(GPA)
+from student
+group by branch;
++--------+----------+
+| branch | max(GPA) |
++--------+----------+
+| mba    |    65.00 |
+| mca    |    75.33 |
++--------+----------+
+
+select * from student where name like "d%";
++------------+---------+------------+--------+-------+-------+-------+--------+-------+
+| usn        | name    | DOB        | branch | mark1 | mark2 | mark3 | total  | GPA   |
++------------+---------+------------+--------+-------+-------+-------+--------+-------+
+| 4vp21mc010 | deepthi | 2000-10-12 | mca    | 67.00 | 78.00 | 81.00 | 226.00 | 75.33 |
+| 4vp21mc012 | deeksha | 2000-04-26 | mca    | 55.00 | 79.00 | 85.00 | 219.00 | 73.00 |
++------------+---------+------------+--------+-------+-------+-------+--------+-------+
+
+select * from student where name like "%yh%";
+
+
+// question 1//
+select * from student s 
+where(select br.usn  from Borrow br,Book bk
+where br.Bookid=bk.Bookid and br.usn=s.usn 
+group by usn 
+having count(distinct Authorid)>1);
++-----------+--------+---------+----------+------+
+| USN       | NAME   | ADDRESS | Branchid | SEM  |
++-----------+--------+---------+----------+------+
+| 4vp21cs31 | janani | puttur  | B1       |    2 |
++-----------+--------+---------+----------+------+
+
+select usn from Borrow,Author
+group by usn
+having count(Authorid)>1;
++-----------+
+| usn       |
++-----------+
+| 4vp21cs02 |
+| 4vp21cs10 |
+| 4vp21cs01 |
+| 4vp21cs31 |
+| 4vp21cs21 |
++-----------+
+
+select * from student s 
+exists(select usn,publisher from Borrow,Book
+where  Borrow.Bookid=Book.Bookid and s.usn=borrow.usn 
+group by usn 
+having count(distinct publisher)=1;
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+create table team(teamid varchar(10) primary key,
+teamname varchar(20),
+city varchar(20),
+coach varchar(10));
+
+
+create table player(player_id varchar(20) primary key,
+name varchar(20),
+phno int(10) not null,
+age int(2) not null,
+teamid varchar(10),
+foreign key(teamid) references team(teamid));
+
+create table stadium(sid varchar(20) primary key,
+sname char(10),
+city varchar(20),
+area varchar(20),
+pincode int(7),
+player_id varchar(20));
+
+
