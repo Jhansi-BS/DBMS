@@ -1,0 +1,190 @@
+create table team(teamid varchar(10) primary key,
+teamname varchar(20),
+coach varchar(10),
+city varchar(20));
+alter table team add captainid varchar(20);
+
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| teamid    | varchar(10) | NO   | PRI | NULL    |       |
+| teamname  | varchar(20) | YES  |     | NULL    |       |
+| coach     | varchar(10) | YES  |     | NULL    |       |
+| city      | varchar(20) | YES  |     | NULL    |       |
+| captainid | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+insert into team(teamid,teamname,coach,city,captainid)values('T01','RCB','KBS','banglore','p01');
+insert into team(teamid,teamname,coach,city,captainid)values('T02','RCB','KBS','banglore','p02');
+insert into team(teamid,teamname,coach,city,captainid)values('T03','CSK','SID','Chennai','p03');
+insert into team(teamid,teamname,coach,city,captainid)values('T04','CSK','SID','Chennai','p04');
+insert into team(teamid,teamname,coach,city,captainid)values('T05','RCB','KBS','banglore','p05');
+insert into team(teamid,teamname,coach,city,captainid)values('T06','CSK','SID','Chennai','p06');
+
++--------+----------+-------+----------+-----------+
+| teamid | teamname | coach | city     | captainid |
++--------+----------+-------+----------+-----------+
+| T01    | RCB      | KBS   | banglore | p01       |
+| T02    | RCB      | KBS   | banglore | p02       |
+| T03    | CSK      | SID   | Chennai  | p03       |
+| T04    | CSK      | SID   | Chennai  | p04       |
+| T05    | RCB      | KBS   | banglore | p05       |
+| T06    | CSK      | SID   | Chennai  | p06       |
++--------+----------+-------+----------+-----------+
+
+
+
+create table player(player_id varchar(20) primary key,
+name varchar(20),
+phno int(10) not null,
+age int(2) not null,
+teamid varchar(10),
+foreign key(teamid) references team(teamid));
+
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| player_id | varchar(20) | NO   | PRI | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| phno      | int         | NO   |     | NULL    |       |
+| age       | int         | NO   |     | NULL    |       |
+| teamid    | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+
+insert into player(player_id,name,phno,age)values('p01','darshan',967812456,21);
+insert into player(player_id,name,phno,age)values('p02','Akshay',900704009,20);
+insert into player(player_id,name,phno,age)values('p03','chethan',897123356,21);
+insert into player(player_id,name,phno,age)values('p04','nikhil',765432154,21);
+insert into player(player_id,name,phno,age)values('p05','pavan',974124457,20);
+insert into player(player_id,name,phno,age)values('p06','nihan',953561022,21);
+
++-----------+---------+-----------+-----+--------+
+| player_id | name    | phno      | age | teamid |
++-----------+---------+-----------+-----+--------+
+| p01       | darshan | 967812456 |  21 | NULL   |
+| p02       | Akshay  | 900704009 |  20 | NULL   |
+| p03       | chethan | 897123356 |  21 | NULL   |
+| p04       | nikhil  | 765432154 |  21 | NULL   |
+| p05       | pavan   | 974124457 |  20 | NULL   |
+| p06       | nihan   | 953561022 |  21 | NULL   |
++-----------+---------+-----------+-----+--------+
+
+update player set teamid='T01' where player_id in('p01','p02','p05');
+update player set teamid='T02' where player_id in('p03','p04','p06');
+
+
++-----------+---------+-----------+-----+--------+
+| player_id | name    | phno      | age | teamid |
++-----------+---------+-----------+-----+--------+
+| p01       | darshan | 967812456 |  21 | T01    |
+| p02       | Akshay  | 900704009 |  20 | T01    |
+| p03       | chethan | 897123356 |  21 | T02    |
+| p04       | nikhil  | 765432154 |  21 | T02    |
+| p05       | pavan   | 974124457 |  20 | T01    |
+| p06       | nihan   | 953561022 |  21 | T02    |
++-----------+---------+-----------+-----+--------+
+
+
+create table stadium(sid varchar(20) primary key,
+sname varchar(10),
+city varchar(20),
+area varchar(20),
+pincode int(7));
+
+insert into stadium(sid,sname,city,area,pincode)values('s1','kempegowda','banglore','bnglr',574225);
+insert into stadium(sid,sname,city,area,pincode)values('s2','kuvempu','shivamogga','gopi',577523);
+insert into stadium(sid,sname,city,area,pincode)values('s3','jayadev','Davangere','dvg',575677);
+insert into stadium(sid,sname,city,area,pincode)values('s4','chennamaji','durga','ckd',567332);
+insert into stadium(sid,sname,city,area,pincode)values('s5','balami','manglore','puttur',574227);
+insert into stadium(sid,sname,city,area,pincode)values('s6','bapuji','hassan','hsn',574243);
+
++-----+------------+------------+--------+---------+
+| sid | sname      | city       | area   | pincode |
++-----+------------+------------+--------+---------+
+| s1  | kempegowda | banglore   | bnglr  |  574225 |
+| s2  | kuvempu    | shivamogga | gopi   |  577523 |
+| s3  | jayadev    | Davangere  | dvg    |  575677 |
+| s4  | chennamaji | durga      | ckd    |  567332 |
+| s5  | balami     | manglore   | puttur |  574227 |
+| s6  | bapuji     | hassan     | hsn    |  574243 |
++-----+------------+------------+--------+---------+
+
+
+create table Tmatch(matchid varchar(20) primary key,
+winnerteamid varchar(20),
+teamid1 varchar(10),                         
+teamid2 varchar(20),
+sdate date,
+stime timestamp,
+sid varchar(20));
+alter table Tmatch add foreign key(teamid1) references team(teamid);
+alter table Tmatch add foreign key(teamid2) references team(teamid);
+alter table Tmatch add foreign key(sid) references stadium(sid);
+
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| matchid      | varchar(20) | NO   | PRI | NULL    |       |
+| winnerteamid | varchar(20) | YES  |     | NULL    |       |
+| teamid1      | varchar(10) | YES  | MUL | NULL    |       |
+| teamid2      | varchar(20) | YES  | MUL | NULL    |       |
+| sdate        | date        | YES  |     | NULL    |       |
+| stime        | timestamp   | YES  |     | NULL    |       |
+| sid          | varchar(20) | YES  | MUL | NULL    |       |
+
++--------------+-------------+------+-----+---------+-------+
+
+
+insert into Tmatch values('m1','w01','T01','T02','2022-2-21',2:30:21,'s1');
+
+
+
+create table manofmatch(player_id varchar(20),
+matchid varchar(20),
+primary key(player_id,matchid),
+foreign key(player_id) references player(player_id),
+foreign key(matchid)  references Tmatch(matchid));
+----------------------------------------------------------------------------------------------------------------
+1)  select player_name,Team_name,Age
+    from Player,Team 
+    where Player.Team_id=Team.Team_id and Age=(select min(Age) from Player);
+   
++-------------+-----------+------+
+| player_name | Team_name | Age  |
++-------------+-----------+------+
+| Padikal     | CSK       |   28 |
++-------------+-----------+------+
+
+
+
+2) select * from Stadium 
+where Stadium_id=(select Stadium_id from Match1 group by Stadium_id order by count(Stadium_id)DESC limit 1);
++------------+--------------+---------+-------+---------+
+| Stadium_id | Stadium_name | city    | Area  | Pincode |
++------------+--------------+---------+-------+---------+
+| S01        | RNShetty     | Dharwad | Begur |  581204 |
++------------+--------------+---------+-------+---------+
+
+
+
+3) select * from Player where Player_id in(select Player_id from ManOfMatch where Player_id NOT IN(select Captain_id from Team)group by Player_id having count(Player_id)>=2);
+
+
+4) select * from Team where Team_id=(select Winner_id from Match1 group by Winner_id order by count(Match1.Winner_id)DESC limit1);          +---------+-----------+--------+-----------+------------+
+ | Team_id | Team_name | Coach  | City      | Captain_id |
++---------+-----------+--------+-----------+------------+
+| T01     | RCB       | Dravid | Bangalore | P01        |
++---------+-----------+--------+-----------+------------+
+
+
+
+5) select Team_name from Team where Team_id in(select Winner_id from Match1 group by Stadium_id)having count(*) in(select count(Winner_id)
+   from Match1 group by Winner_id));
+
+select * from Team where Team_id in(select Winner_id from Match1 group by Winner_id having count(Stadium_id)>=2);
+
+
+
+
+
