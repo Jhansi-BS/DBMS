@@ -1,0 +1,125 @@
+mysql -h 192.168.14.71 -u VP21MC018 -p
+password: Vcet@2022
+create database VP21MC018_election
+use VP21MC018_election
+
+create table Consti(cons_id int(20) primary key,
+csname varchar(20),
+cs_state varchar(20),
+no_of_voters int(10)); 
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| cons_id      | int         | NO   | PRI | NULL    |       |
+| csname       | varchar(20) | YES  |     | NULL    |       |
+| cs_state     | varchar(20) | YES  |     | NULL    |       |
+| no_of_voters | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+insert into Consti values(101,"kormangla","kearala",4);
+insert into Consti values(102,"ramnagar","karnataka",1);
+
+
+create table party(pid int(10) primary key,
+pname varchar(10),
+psymbol varchar(10));
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| pid     | int         | NO   | PRI | NULL    |       |
+| pname   | varchar(10) | YES  |     | NULL    |       |
+| psymbol | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+insert into party values(800,"BJP","lotus");
+insert into party values(801,"congress","hand");
+
+create table candidate(cand_id int(10) primary key,
+name varchar(20),
+age int(3),
+phno int(10),
+state varchar(20),
+pid int(10) references party(pid));
+
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| cand_id | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| phno    | int         | YES  |     | NULL    |       |
+| state   | varchar(20) | YES  |     | NULL    |       |
+| pid     | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+insert into candidate values(111,"geetha",23,974123345,"karnataka",800);
+insert into candidate values(222,"deeksha",24,897169784,"kerala",801);
+insert into candidate values(333,"deepthi",17,234165785,"goa",800);
+
+create table voter(vid varchar(10) primary key,
+vt_name varchar(20),
+age int(3),
+addr varchar(30),
+cons_id int(20) references Consti(cons_id),
+cand_id int(10) references candidate(cand_id));
+
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| vid     | varchar(10) | NO   | PRI | NULL    |       |
+| vt_name | varchar(20) | YES  |     | NULL    |       |
+| age     | int         | YES  |     | NULL    |       |
+| addr    | varchar(30) | YES  |     | NULL    |       |
+| cons_id | int         | YES  |     | NULL    |       |
+| cand_id | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+insert into voter values("v1","ram",21,"shamnur",102,222);
+insert into voter values("v2","sham",23,"mandya",101,111);
+insert into voter values("v3","ram",30,"kodagu",101,111);
+insert into voter values("v4","ram",30,"kodagu",101,111);
+
+create table contest(cons_id int(20) references Consti(cons_id),
+cand_id int(10) references candidate(cand_id),
+primary key(cons_id,cand_id));
+
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| cons_id | int  | NO   | PRI | NULL    |       |
+| cand_id | int  | NO   | PRI | NULL    |       |
++---------+------+------+-----+---------+-------+
+
+insert into contest values(101,801);
+insert into contest values(102,800);
+insert into contest values(102,801);
+
+
+1) select * from candidate 
+   where cand_id in(select cand_id from contest
+   join Consti on contest.cons_id=Consti.cons_id
+   group by cand_id having count(distinct(cs_state))>1);
+   
+   
+2) select cs_state from Consti group by cs_state having
+   count(cs_state) in (select max(count(cs_state)) from Consti group by cs_state);
+   
+3)
+  source abc.sql;
+  drop procedure abc;
+  
+  call abc("v5","jhansi",19,"marshius","america");
++--------------+
+| msg          |
++--------------+
+| row inserted |
++--------------+
+
+call abc("v6","deep",17,"syperi","dubai");
++--------------------+
+| msg                |
++--------------------+
+| voter not eligible |
++--------------------+
+
+ 
+
+
